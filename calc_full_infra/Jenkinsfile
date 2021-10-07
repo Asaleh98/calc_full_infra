@@ -15,7 +15,8 @@ pipeline {
 
   stages('cloning the code from git'){
     steps{
-      git 'https://github.com/Asaleh98/Full_infra.git'
+      git branch: 'main',
+      url: 'https://github.com/Asaleh98/calc_full_infra/tree/main/calc_full_infra'
     }
   }
 
@@ -26,4 +27,23 @@ pipeline {
       }
     }
   }
+
+
+  stage('Deplot to Docker Hub'){
+    steps {
+      script{
+        docker.withRegistry(' ', DOCKER CREDENTIALS){
+          DOCKER_IMAGE.push()
+        }
+      }
+    }
+  }
+
+  stage('Removing Docker image'){
+    steps{
+      sh "docker rmi $REGISTRY"
+    }
+  }
+
+
 }
