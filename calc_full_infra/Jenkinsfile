@@ -1,0 +1,29 @@
+pipeline {
+
+  environment {
+    PROJECT_DIR = "/app"
+    REGISTRY = "asaleh98/secure_rest_api"
+    DOCKER_CREDENTIALS = "docker_auth"
+    DOCKER_IMAGE = " "
+  }
+
+  agent any
+
+  options {
+    skipStagesAfterUnstable()
+  }
+
+  stages('cloning the code from git'){
+    steps{
+      git 'https://github.com/Asaleh98/Full_infra.git'
+    }
+  }
+
+  stage('Build-Image'){
+    steps {
+      script {
+        DOCKER_IMAGE  docker.build REGISTRY
+      }
+    }
+  }
+}
